@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title></title>
+        <style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(120deg, #74ebd5, #acb6e5);
+    color: #333;
+    align-content: center;
+    height: 100vh;
+    overflow: scroll;
+}
+
+#main {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+    margin-top: 40px;
+    overflow: scroll;
+}
+
+#creation {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 10px 0;
+}
+
+#btn-creation {
+    border: none;
+    border-radius: 25px;
+    padding: 5px 10px;
+    box-shadow: 0 0 15px -5px #007bff;
+    background: #007bff;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+#btn-creation:hover {
+    box-shadow: 0 0 25px -5px #0056b3;
+    background: #0056b3;
+}
+
+.lists-lang {
+    overflow: scroll;
+    width: 90%;
+    padding: 5px;
+    margin: 2px 0;
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    transform: scale(0);
+    animation: appear 0.5s ease forwards;
+}
+
+@keyframes appear {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.list-input_left,
+.list-input_right {
+    width: 45%;
+    height: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    text-align: center;
+    font-family: 'Courier New', Courier, monospace;
+    resize: none;
+    transition: all 0.3s ease;
+}
+
+.list-input_left:focus,
+.list-input_right:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+    outline: none;
+}
+
+.list-br {
+    border-radius: 50%;
+    color: white;
+    padding: 5px;
+    font-size: 20px;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% {
+            box-shadow: 0 2px 10px rgba(0, 123, 255, 0.3);
+        transform: translateY(0);
+    }
+    50% {
+            box-shadow: 2px 0 5px 2px rgba(0, 123, 255, 0.3);
+        transform: translateY(-10px);
+    }
+}
+        </style>
+</head>
+
+<body>
+        <div id="creation"><button id="btn-creation" >+Creat new list+</button></div>
+<div id="main">
+
+</div>
+
+<script>
+function startElements(){
+let main = document.getElementById('main');
+let btn = document.getElementById('btn-creation');
+let listsnumber;
+
+let listLangNumbers = localStorage.getItem('list_lang_numbers');
+if (listLangNumbers != 0 && listLangNumbers != null) {
+        listsnumber = parseInt(listLangNumbers);
+        for (let i = 0; i <= listsnumber; i++) {
+                creationList(i);
+        }
+} else {
+        listsnumber = 0;
+        creation(listsnumber);
+}
+
+btn.addEventListener('click', function() {
+        listsnumber++;
+        creation(listsnumber);
+});
+
+}
+function creation(n) {
+        
+
+
+//
+        let listslang = document.createElement('div');
+        listslang.classList = 'lists-lang';
+
+        let listinputLeft = document.createElement('textarea');
+        listinputLeft.classList = 'list-input_left';
+        listinputLeft.id = `input_left_${n}`;
+
+        let listBr = document.createElement('p');
+        listBr.classList = 'list-br';
+
+        let arrayEmoj = ['😎', '😃', '🥳', '😁', '🤩', '💻', '☄️', '💪🏼', '🚴', '🤾', '⛹️', '🏃🏻‍♂️', '🪂', '🏞️',
+    '🌋', '🌀', '🌬️', '🌕', '🌍', '🌠', '🌩️', '🌧️', '🌨️', '🐢', '🦕', '🦖', '🐏', '🦦', '🐟',
+    '🍉', '🥂', '🚨', '🚧', '🚢', '🛸', '🌐', '🪩', '🎇', '📢', '🏆', '⚽', '🛹', '🧩', '🎮', '🕹️',
+    '🎹', '🥺', '😂', '😅', '😍', '🤯', '🥵', '🥶', '🤤', '😋', '😜', '🤗', '😇', '🤠', '👑', '👻',
+    '💀', '🎃', '👹', '👺', '🤖', '🦸‍♂️', '🦸‍♀️', '🦹‍♂️', '🦹‍♀️', '👷‍♂️', '👷‍♀️', '💼', '💍',
+    '👗', '👕', '👚', '🧥', '👘', '👖', '👕', '👙', '👚', '🧢', '🎩', '🧣', '👒', '👟', '👢', '👡',
+    '🥿', '👠', '👡', '🧳', '🧳', '🎒', '👓', '🕶️', '👑', '🎩', '👒', '💄', '💋', '💅', '👋', '✋',
+    '👌', '👏', '👐', '✊', '👊', '🤛', '🤜', '🤚', '✌️', '🤞', '🤟', '🖖', '🤘', '🤙', '🤙', '🤝',
+    '🙏', '👀', '🧠', '💭', '👂', '👅', '👎', '👆', '👈', '👉', '👋', '👍', '💯', '🆗', '💬', '🗨️',
+    '🔊', '🔉', '🔈', '🔇', '🔁', '🔂', '🔃', '🔄', '🔙', '⏩', '⏪', '⏯', '⏸', '⏹', '⏺', '⛔',
+    '⚠️', '🚸', '⚡', '💥', '🔥', '💫', '🌟', '✨', '🌈', '💫', '⭐', '🔔', '🔕', '🛎', '🔔', '📣', '📯',
+    '🗣', '📢', '🔊', '📡', '📶', '📞', '📠', '📱', '☎️', '📞', '💻', '🖥', '🖨', '🖱', '💡', '🔦',
+    '🔆', '🔅', '🏮', '🧭', '🌏', '🌍', '🌎', '🗺', '🗾', '🎥', '🎬', '📷', '📸', '🎞', '🎬', '🎞️',
+    '📹', '📽️', '📺', '📻', '🕹', '🎮', '📱', '🎧', '🎤', '📀', '💽', '📼', '🖋', '🖊', '🖌', '✒️',
+    '📝', '📝', '📄', '📃', '📜', '📋', '📅', '📆', '🗓', '📇', '📈', '📉', '📊', '📋', '📍', '📌',
+    '🔗', '🔒', '🔓', '🔏', '🔐', '🖇', '📎', '📏', '📐', '🖊', '🔍', '🔎', '🗝', '⚙️', '🔧', '🔩',
+    '⚒', '🛠', '🗡', '⚔️', '🛡', '⚖️', '🔨', '🔪', '🪓', '🗜', '⚡', '🔋', '🔌', '💡', '🔦', '🕯',
+    '🔆', '🎛', '🖥', '💻', '💾', '🖨', '💳', '📇', '🗃', '🗄', '📦', '📅', '📆', '📓', '📔', '📚',
+    '📖', '🔖', '📒', '📏', '📐', '📋', '🖊', '📝', '✏️', '🖌', '✒️', '📌', '📍', '🗂', '🗃', '📜'];
+     
+      listBr.id = `emoji_${n}`;
+      
+      if(n<=arrayEmoj.length){
+          for (let e = 0; e <= n; e++) {
+        listBr.innerHTML = arrayEmoj[e];
+             }
+      }else{
+         listBr.innerHTML='<==>';
+      }
+
+        let listinputRight = document.createElement('textarea');
+        listinputRight.classList = 'list-input_right';
+        listinputRight.id = `input_right_${n}`;
+
+        listslang.appendChild(listinputLeft);
+        listslang.appendChild(listBr);
+        listslang.appendChild(listinputRight);
+        main.appendChild(listslang);
+
+        listinputLeft.addEventListener('input', () => creationText(listinputLeft, listinputRight));
+        listinputRight.addEventListener('input', () => creationText(listinputLeft, listinputRight));
+        loadText(listinputLeft, listinputRight);
+        creationText(listinputLeft, listinputRight)
+        //localatorag list
+        if (n >= 0) {
+        
+        if (listinputLeft.value != '' || listinputRight.value != '') {
+        localStorage.setItem('list_lang_numbers', n);
+        }else{
+        listinputLeft.value != '';
+        listinputRight.value != '';
+        }
+} else {
+        
+        localStorage.setItem('list_lang_numbers', 0);
+        location.reload();
+        console.log('error the n < 0');
+}
+
+}
+function creationList(n) {
+        if (n >= 0) {
+                localStorage.setItem('list_lang_numbers', n);
+                creation(n);
+        } else {
+                console.log('error the n < 0');
+        }
+}
+function creationText(input, inputR) {
+        if (input) {
+                let data = { id: input.id, value: input.value };
+                localStorage.setItem(input.id, JSON.stringify(data));
+    
+        }
+        if (inputR) {
+                let data = { id: inputR.id, value: inputR.value };
+                localStorage.setItem(inputR.id, JSON.stringify(data));
+        }
+        wraptext(input,inputR)
+}
+function loadText(input, inputR) {
+        let storedData = localStorage.getItem(input.id);
+        if (storedData) {
+                let data = JSON.parse(storedData);
+                if (data.id === input.id) {
+                        input.value = data.value;
+                }
+        }
+
+        let storedData2 = localStorage.getItem(inputR.id);
+        if (storedData2) {
+                let data = JSON.parse(storedData2);
+                if (data.id === inputR.id) {
+                        inputR.value = data.value;
+                }
+        }
+        
+        
+wraptext(input,inputR)
+
+}
+function wraptext(input,inputR){
+if (input.value.length > 18 || inputR.value.length > 20) {
+        input.style.height = '50px'; // تعديل الارتفاع بشكل صحيح
+        inputR.style.height = '50px'; // تعديل الارتفاع بشكل صحيح
+} else {
+        input.style.height = ''; // إعادة تعيين الارتفاع إذا كانت الحروف أقل من 
+        inputR.style.height = ''; // إعادة تعيين الارتفاع إذا كانت الحروف أقل من 20
+}
+
+}
+startElements();
+</script>
+</body>
+
+</html>
